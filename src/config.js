@@ -21,14 +21,10 @@ export async function loadConfig() {
   const uniqueStreamerTokens = [...new Set(streamerTokens)];
 
   const isConfigIncomplete =
-    !hasEnvFile ||
-    uniqueStreamerTokens.length === 0 ||
-    !VIEWER_TOKEN ||
-    !GUILD_ID ||
-    !CHANNEL_ID ||
-    VIEWER_TOKEN.trim() === "" ||
-    GUILD_ID.trim() === "" ||
-    CHANNEL_ID.trim() === "";
+  uniqueStreamerTokens.length === 0 ||
+  !VIEWER_TOKEN?.trim() ||
+  !GUILD_ID?.trim() ||
+  !CHANNEL_ID?.trim();
 
   if (isConfigIncomplete) {
     return await runSetupWizard();
