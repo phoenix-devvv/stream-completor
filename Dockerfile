@@ -1,9 +1,11 @@
-FROM node:22-alpine
+FROM node:22-bookworm-slim
 
 WORKDIR /app
 
-# Install dependencies required by node-gyp, native builds, and FFmpeg media processing
-RUN apk add --no-cache python3 make g++ ffmpeg gcompat
+# Build tools + FFmpeg (glibc-based, so node-av's prebuilt binary loads fine)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      python3 make g++ ffmpeg ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY package*.json ./
 RUN npm install --omit=dev
